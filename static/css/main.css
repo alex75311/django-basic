@@ -707,7 +707,7 @@ a {
     }
 
     .footer-area {
-        padding: 70px 0px
+        padding: 70px 0px;
     }
 
     .single-footer-widget .sub-btn {
@@ -4656,7 +4656,8 @@ a {
 
 @media (min-width: 1000px) {
     .footer-area {
-        padding: 195px 0px 120px
+        /*padding: 195px 0px 120px;*/
+        margin-top: 30px;
     }
 }
 
