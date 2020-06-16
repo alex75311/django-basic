@@ -1,0 +1,113 @@
+{
+  "links_menu": [
+    {
+      "href": "main:index",
+      "name": "Home",
+      "active": [
+        "index"
+      ]
+    },
+    {
+      "href": [
+        {
+          "href": "main:category",
+          "name": "Shop Category"
+        },
+        {
+          "href": "main:single-product",
+          "name": "Product Details"
+        }
+      ],
+      "name": "Shop",
+      "active": [
+        "category",
+        "single-product"
+      ],
+      "is_drop_down": "True"
+    },
+    {
+      "href": "main:contact",
+      "name": "Contact",
+      "active": [
+        "contact"
+      ]
+    }
+  ],
+
+  "index_carousel": [
+    {
+      "src": "img/home/hero-slide1.png",
+      "h3": "Wireless Headphone 1",
+      "p": "Accessories Item"
+    },
+    {
+      "src": "img/home/hero-slide2.png",
+      "h3": "Wireless Headphone 2",
+      "p": "Accessories Item"
+    },
+    {
+      "src": "img/home/hero-slide3.png",
+      "h3": "Wireless Headphone 3",
+      "p": "Accessories Item"
+    }
+  ],
+
+  "treding_product": [
+    {
+      "src": "img/product/product1.png",
+      "p": "Accessories",
+      "href": "single-product/",
+      "price": "$150.00",
+      "name": "Quartz Belt Watch"
+    },
+    {
+      "src": "img/product/product2.png",
+      "p": "Beauty",
+      "href": "single-product/",
+      "price": "$150.00",
+      "name": "Women Freshwash"
+    },
+    {
+      "src": "img/product/product3.png",
+      "p": "Decor",
+      "href": "single-product/",
+      "price": "$150.00",
+      "name": "Room Flash Light"
+    },
+    {
+      "src": "img/product/product4.png",
+      "p": "Decor",
+      "href": "single-product/",
+      "price": "$150.00",
+      "name": "Room Flash Light"
+    },
+    {
+      "src": "img/product/product5.png",
+      "p": "Accessories",
+      "href": "single-product/",
+      "price": "$150.00",
+      "name": "Man Office Bag"
+    },
+    {
+      "src": "img/product/product6.png",
+      "p": "Kids Toy",
+      "href": "single-product/",
+      "price": "$150.00",
+      "name": "Charging Car"
+    },
+    {
+      "src": "img/product/product7.png",
+      "p": "Accessories",
+      "href": "single-product/",
+      "price": "$150.00",
+      "name": "Blutooth Speaker"
+    },
+    {
+      "src": "img/product/product8.png",
+      "p": "Kids Toy",
+      "href": "single-product/",
+      "price": "$150.00",
+      "name": "Charging Car"
+    }
+  ]
+}

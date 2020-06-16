@@ -1,19 +1,13 @@
 from django.shortcuts import render
 from datetime import datetime
+import json
 
-links_menu = [
-    {'href': 'main:index', 'name': 'Home', 'active': ['index', ]},
-    {'href':
-        [
-            {'href': 'main:category', 'name': 'Shop Category'},
-            {'href': 'main:single-product', 'name': 'Product Details'}
-        ],
-        'name': 'Shop',
-        'active': ['category', 'single-product'],
-        'is_drop_down': True,
-    },
-    {'href': 'main:contact', 'name': 'Contact', 'active': ['contact', ]},
-]
+with open('mainapp/data.json', 'r', encoding='utf-8') as f:
+    data = json.load(f)
+
+links_menu = data['links_menu']
+index_carousel = data['index_carousel']
+treding_product = data['treding_product']
 
 context = {
     'year': datetime.now().year,
@@ -24,11 +18,15 @@ context = {
 # Create your views here.
 def main(request):
     context['title'] = 'Главная'
+    context['index_carousel'] = index_carousel
+    context['treding_product'] = treding_product
+    context['best_sellers'] = treding_product
     return render(request, 'mainapp/index.html', context)
 
 
 def category(request):
     context['title'] = 'Категории'
+    context['products'] = treding_product
     return render(request, 'mainapp/category.html', context)
 
 

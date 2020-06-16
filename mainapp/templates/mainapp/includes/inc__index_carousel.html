@@ -1,0 +1,19 @@
+{% load static %}
+
+<!--================ Hero Carousel start =================-->
+<section class="section-margin mt-0">
+    <div class="owl-carousel owl-theme hero-carousel">
+
+        {% for slide in index_carousel %}
+        <div class="hero-carousel__slide">
+            <img src="{% static slide.src %}" alt="" class="img-fluid">
+            <a href="#" class="hero-carousel__slideOverlay">
+                <h3> {{ slide.h3 }} </h3>
+                <p> {{ slide.p }} </p>
+            </a>
+        </div>
+
+        {% endfor %}
+    </div>
+</section>
+<!--================ Hero Carousel end =================-->
