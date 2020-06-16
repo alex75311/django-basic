@@ -1,0 +1,76 @@
+{% load static %}
+
+<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
+    <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
+
+        {% for link in links_menu %}
+
+            {% if not link.is_drop_down %}
+                <li class="nav-item {% if request.resolver_match.url_name in link.active %} active {% endif %}">
+                    <a class="nav-link"
+                       href="{% url link.href %}">
+                        {{ link.name }}
+                    </a>
+                </li>
+
+            {% else %}
+
+                <li class="nav-item submenu dropdown {% if request.resolver_match.url_name in link.active %} active {% endif %}">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                       aria-expanded="false"> {{ link.name }} </a>
+                    <ul class="dropdown-menu">
+
+                {% for drop in link.href %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url drop.href %}">
+                            {{ drop.name }}
+                        </a>
+                    </li>
+                    <!--                    <li class="nav-item"><a class="nav-link" href="{% url 'main:single-product'%}">Product Details</a></li>-->
+
+                {% endfor %}
+                 </ul>
+            {% endif %}
+
+        {% endfor %}
+</div>
+
+
+<!--            </ul>-->
+<!--        </li>-->
+<!--        { endif %}-->
+
+<!--                  <li class="nav-item"><a class="nav-link" href="/checkout/">Product Checkout</a></li>-->
+<!--                  <li class="nav-item"><a class="nav-link" href="/confirmation/">Confirmation</a></li>-->
+<!--                  <li class="nav-item"><a class="nav-link" href="/cart/">Shopping Cart</a></li>-->
+
+<!--        &lt;!&ndash;              <li class="nav-item submenu dropdown">&ndash;&gt;-->
+<!--        &lt;!&ndash;                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"&ndash;&gt;-->
+<!--        &lt;!&ndash;                  aria-expanded="false">Blog</a>&ndash;&gt;-->
+<!--        &lt;!&ndash;                <ul class="dropdown-menu">&ndash;&gt;-->
+<!--        &lt;!&ndash;                  <li class="nav-item"><a class="nav-link" href="/blog/">Blog</a></li>&ndash;&gt;-->
+<!--        &lt;!&ndash;                  <li class="nav-item"><a class="nav-link" href="/single-blog/">Blog Details</a></li>&ndash;&gt;-->
+<!--        &lt;!&ndash;                </ul>&ndash;&gt;-->
+<!--        &lt;!&ndash;							</li>&ndash;&gt;-->
+<!--        &lt;!&ndash;							<li class="nav-item submenu dropdown">&ndash;&gt;-->
+<!--        &lt;!&ndash;                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"&ndash;&gt;-->
+<!--        &lt;!&ndash;                  aria-expanded="false">Pages</a>&ndash;&gt;-->
+<!--        &lt;!&ndash;                <ul class="dropdown-menu">&ndash;&gt;-->
+<!--        &lt;!&ndash;                  <li class="nav-item"><a class="nav-link" href="/login/">Login</a></li>&ndash;&gt;-->
+<!--        &lt;!&ndash;                  <li class="nav-item"><a class="nav-link" href="/register/">Register</a></li>&ndash;&gt;-->
+<!--        &lt;!&ndash;                  <li class="nav-item"><a class="nav-link" href="/tracking-order/">Tracking</a></li>&ndash;&gt;-->
+<!--        &lt;!&ndash;                </ul>&ndash;&gt;-->
+<!--        &lt;!&ndash;              </li>&ndash;&gt;-->
+<!--        <li class="nav-item"><a class="nav-link" href="{% url 'main:contact' %}">Contact</a></li>-->
+<!--    </ul>-->
+
+<!--    <ul class="nav-shop">-->
+<!--        <li class="nav-item">-->
+<!--            <button><i class="ti-search"></i></button>-->
+<!--        </li>-->
+<!--        <li class="nav-item">-->
+<!--            <button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button>-->
+<!--        </li>-->
+<!--        <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li>-->
+<!--    </ul>-->
+<!--</div>-->
