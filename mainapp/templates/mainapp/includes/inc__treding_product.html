@@ -14,7 +14,7 @@
             <div class="col-md-6 col-lg-4 col-xl-3">
                 <div class="card text-center card-product">
                     <div class="card-product__img">
-                        <img class="card-img" src="{% static product.src %}" alt="">
+                        <img class="card-img" src="/media/{{ product.image }}" alt="">
                         <ul class="card-product__imgOverlay">
                             <li>
                                 <button><i class="ti-search"></i></button>
@@ -28,9 +28,9 @@
                         </ul>
                     </div>
                     <div class="card-body">
-                        <p>{{ product.p }}</p>
-                        <h4 class="card-product__title"><a href={{ product.href }}>{{ product.name }}</a></h4>
-                        <p class="card-product__price">{{ product.price }}</p>
+                        <p>{{ product.category.name }}</p>
+                        <h4 class="card-product__title"><a href=/product-page/{{ product.id }}>{{ product.name }}</a></h4>
+                        <p class="card-product__price">${{ product.price }}</p>
                     </div>
                 </div>
             </div>

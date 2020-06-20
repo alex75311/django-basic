@@ -29,33 +29,9 @@
 
 
             <div class="col-xl-3 col-lg-4 col-md-5">
-                <div class="sidebar-categories">
-                    <div class="head">Browse Categories</div>
-                    <ul class="main-categories">
-                        <li class="common-filter">
-                            <form action="#">
-                                <ul>
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="men" name="brand"><label
-                                            for="men">Men<span> (3600)</span></label></li>
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="women" name="brand"><label
-                                            for="women">Women<span> (3600)</span></label></li>
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="accessories"
-                                                                   name="brand"><label
-                                            for="accessories">Accessories<span> (3600)</span></label></li>
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="footwear" name="brand"><label
-                                            for="footwear">Footwear<span> (3600)</span></label></li>
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="bayItem" name="brand"><label
-                                            for="bayItem">Bay item<span> (3600)</span></label></li>
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="electronics"
-                                                                   name="brand"><label
-                                            for="electronics">Electronics<span> (3600)</span></label></li>
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="food" name="brand"><label
-                                            for="food">Food<span> (3600)</span></label></li>
-                                </ul>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
+
+                {% include 'mainapp/includes/inc__browse_categories.html' %}
+
                 <div class="sidebar-filter">
                     <div class="top-filter-head">Product Filters</div>
                     <div class="common-filter">
@@ -142,31 +118,30 @@
                 <!-- Start Best Seller -->
                 <section class="lattest-product-area pb-40 category-list">
                     <div class="row">
-
                         {% for product in products %}
-                            <div class="col-md-6 col-lg-4">
-                                <div class="card text-center card-product">
-                                    <div class="card-product__img">
-                                        <img class="card-img" src="{% static product.src %}" alt="">
-                                        <ul class="card-product__imgOverlay">
-                                            <li>
-                                                <button><i class="ti-search"></i></button>
-                                            </li>
-                                            <li>
-                                                <button><i class="ti-shopping-cart"></i></button>
-                                            </li>
-                                            <li>
-                                                <button><i class="ti-heart"></i></button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="card-body">
-                                        <p>{{ product.p }}</p>
-                                        <h4 class="card-product__title"><a href="#">{{ product.name }}</a></h4>
-                                        <p class="card-product__price">{{ product.price }}</p>
-                                    </div>
+                        <div class="col-md-6 col-lg-4">
+                            <div class="card text-center card-product">
+                                <div class="card-product__img">
+                                    <img class="card-img" src="/media/{{ product.image }}" alt="">
+                                    <ul class="card-product__imgOverlay">
+                                        <li>
+                                            <button><i class="ti-search"></i></button>
+                                        </li>
+                                        <li>
+                                            <button><i class="ti-shopping-cart"></i></button>
+                                        </li>
+                                        <li>
+                                            <button><i class="ti-heart"></i></button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="card-body">
+                                    <p>{{ product.category.name }}</p>
+                                    <h4 class="card-product__title"><a href="/product-page/{{ product.id }}">{{ product.name }}</a></h4>
+                                    <p class="card-product__price">${{ product.price }}</p>
                                 </div>
                             </div>
+                        </div>
 
                         {% endfor %}
 

@@ -21,7 +21,7 @@
       "name": "Shop",
       "active": [
         "category",
-        "single-product"
+        "product-page"
       ],
       "is_drop_down": "True"
     },
@@ -49,65 +49,6 @@
       "src": "img/home/hero-slide3.png",
       "h3": "Wireless Headphone 3",
       "p": "Accessories Item"
-    }
-  ],
-
-  "treding_product": [
-    {
-      "src": "img/product/product1.png",
-      "p": "Accessories",
-      "href": "single-product/",
-      "price": "$150.00",
-      "name": "Quartz Belt Watch"
-    },
-    {
-      "src": "img/product/product2.png",
-      "p": "Beauty",
-      "href": "single-product/",
-      "price": "$150.00",
-      "name": "Women Freshwash"
-    },
-    {
-      "src": "img/product/product3.png",
-      "p": "Decor",
-      "href": "single-product/",
-      "price": "$150.00",
-      "name": "Room Flash Light"
-    },
-    {
-      "src": "img/product/product4.png",
-      "p": "Decor",
-      "href": "single-product/",
-      "price": "$150.00",
-      "name": "Room Flash Light"
-    },
-    {
-      "src": "img/product/product5.png",
-      "p": "Accessories",
-      "href": "single-product/",
-      "price": "$150.00",
-      "name": "Man Office Bag"
-    },
-    {
-      "src": "img/product/product6.png",
-      "p": "Kids Toy",
-      "href": "single-product/",
-      "price": "$150.00",
-      "name": "Charging Car"
-    },
-    {
-      "src": "img/product/product7.png",
-      "p": "Accessories",
-      "href": "single-product/",
-      "price": "$150.00",
-      "name": "Blutooth Speaker"
-    },
-    {
-      "src": "img/product/product8.png",
-      "p": "Kids Toy",
-      "href": "single-product/",
-      "price": "$150.00",
-      "name": "Charging Car"
     }
   ]
 }

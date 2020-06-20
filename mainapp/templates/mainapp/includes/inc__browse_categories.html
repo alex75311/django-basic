@@ -1,0 +1,25 @@
+<div class="sidebar-categories">
+    <div class="head">Browse Categories</div>
+    <ul class="main-categories">
+        <li class="common-filter">
+            <form action="#">
+                <ul>
+                    {% for category, count in categories.items %}
+                        <li class="filter-list">
+                            <input class="pixel-radio"
+                                   type="radio"
+                                   id={{ category }}
+                                   name="brand">
+                            <label for={{ category }}>
+                                {{ category }}
+                                <span>
+                                    ({{ count }})
+                                </span>
+                            </label>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </form>
+        </li>
+    </ul>
+</div>
