@@ -26,6 +26,28 @@
       "is_drop_down": "True"
     },
     {
+      "href": [
+        {
+          "href": "auth:login",
+          "name": "Login"
+        },
+        {
+          "href": "auth:logout",
+          "name": "Logout"
+        },
+        {
+          "href": "auth:register",
+          "name": "Register"
+        }
+      ],
+      "name": "User",
+      "active": [
+        "login",
+        "register"
+      ],
+      "is_drop_down": "True"
+    },
+    {
       "href": "main:contact",
       "name": "Contact",
       "active": [
@@ -33,7 +55,6 @@
       ]
     }
   ],
-
   "index_carousel": [
     {
       "src": "img/home/hero-slide1.png",

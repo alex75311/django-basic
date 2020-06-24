@@ -16,18 +16,35 @@
             {% else %}
 
                 <li class="nav-item submenu dropdown {% if request.resolver_match.url_name in link.active %} active {% endif %}">
-                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                       aria-expanded="false"> {{ link.name }} </a>
-                    <ul class="dropdown-menu">
+                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                   aria-expanded="false"> {{ link.name }} </a>
+                <ul class="dropdown-menu">
 
-                {% for drop in link.href %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url drop.href %}">
-                            {{ drop.name }}
-                        </a>
-                    </li>
-                {% endfor %}
-                 </ul>
+                    {% for drop in link.href %}
+                        {% if user.is_authenticated %}
+                            {% if drop.name == 'Login' %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'auth:edit-profile' %}">
+                                        {{ user.username }}
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url drop.href %}">
+                                        {{ drop.name }}
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% elif not user.is_authenticated and drop.name != 'Logout' %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url drop.href %}">
+                                    {{ drop.name }}
+                                </a>
+                            </li>
+                        {% endif %}
+
+                    {% endfor %}
+                </ul>
             {% endif %}
 
         {% endfor %}
@@ -59,7 +76,7 @@
 <!--        &lt;!&ndash;                  <li class="nav-item"><a class="nav-link" href="/tracking-order/">Tracking</a></li>&ndash;&gt;-->
 <!--        &lt;!&ndash;                </ul>&ndash;&gt;-->
 <!--        &lt;!&ndash;              </li>&ndash;&gt;-->
-<!--        <li class="nav-item"><a class="nav-link" href="{% url 'main:contact' %}">Contact</a></li>-->
+{#<!--        <li class="nav-item"><a class="nav-link" href="{% url 'main:contact' %}">Contact</a></li>-->#}
 <!--    </ul>-->
 
 <!--    <ul class="nav-shop">-->

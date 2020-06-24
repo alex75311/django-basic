@@ -1,13 +1,12 @@
-from django.shortcuts import render, HttpResponse
-from .models import Category, Product
+from django.shortcuts import render
+from .models import Product
 import json
 
-with open('mainapp/data.json', 'r', encoding='utf-8') as f:
+with open('mainapp/json/data.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
 
 links_menu = data['links_menu']
 index_carousel = data['index_carousel']
-# treding_product = data['treding_product']
 
 context = {}
 
