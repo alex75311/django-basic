@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from .models import Product
+from django.shortcuts import render, get_object_or_404
+from .models import Product, Category
 import json
 
 with open('mainapp/json/data.json', 'r', encoding='utf-8') as f:
@@ -23,7 +23,7 @@ def main(request):
 
 
 def category(request):
-    categories = {p.category.name: len(Product.objects.all().filter(category_id__exact=p.category.id)) for p in Product.objects.all()}
+    categories = {p.category: Product.objects.all().filter(category_id__exact=p.category.id).count() for p in Product.objects.all()}
     product = Product.objects.all()
     context['links_menu'] = links_menu
     context['title'] = 'Категории'
@@ -47,8 +47,23 @@ def singleproduct(request):
 
 
 def productpage(request, pk):
-    product = Product.objects.get(id__exact=pk)
+    product = get_object_or_404(Product, pk=pk)
     context['links_menu'] = links_menu
     context['title'] = product.name
     context['product'] = product
     return render(request, 'mainapp/productpage.html', context)
+
+
+def category_id(request, pk):
+    categories = {p.category: Product.objects.all().filter(category_id__exact=p.category.id).count() for p in
+                  Product.objects.all()}
+    if pk == 0:
+        product = Product.objects.all()
+    else:
+        this_category = get_object_or_404(Category, pk=pk)
+        product = this_category.product_set.all()
+    context['links_menu'] = links_menu
+    context['title'] = 'Категории'
+    context['products'] = product
+    context['categories'] = categories
+    return render(request, 'mainapp/category.html', context)

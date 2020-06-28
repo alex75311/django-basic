@@ -43,7 +43,8 @@
       "name": "User",
       "active": [
         "login",
-        "register"
+        "register",
+        "edit-profile"
       ],
       "is_drop_down": "True"
     },

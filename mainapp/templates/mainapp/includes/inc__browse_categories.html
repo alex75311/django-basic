@@ -4,14 +4,24 @@
         <li class="common-filter">
             <form action="#">
                 <ul>
+                    <li class="filter-list">
+                        <input class="pixel-radio"
+                                   type="radio"
+                                   id=0
+                                   name="brand"
+                                   checked="true">
+                            <label for=0>
+                                Все
+                            </label>
+                    </li>
                     {% for category, count in categories.items %}
                         <li class="filter-list">
                             <input class="pixel-radio"
                                    type="radio"
-                                   id={{ category }}
+                                   id={{ category.id }}
                                    name="brand">
-                            <label for={{ category }}>
-                                {{ category }}
+                            <label for={{ category.id }}>
+                                {{ category.name }}
                                 <span>
                                     ({{ count }})
                                 </span>
@@ -23,3 +33,15 @@
         </li>
     </ul>
 </div>
+<script>
+    let radio = document.getElementsByName('brand')
+    radio.forEach(function (item) {
+            item.addEventListener("change", function (event) {
+                document.location.href = '/category/' + item.id
+            })
+        if(window.location.pathname.split('/')[2] == item.id){
+            item.checked = true
+            }
+        }
+    )
+</script>
