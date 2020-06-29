@@ -21,7 +21,8 @@
       "name": "Shop",
       "active": [
         "category",
-        "product-page"
+        "product-page",
+        "category-id"
       ],
       "is_drop_down": "True"
     },

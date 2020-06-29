@@ -4777,3 +4777,19 @@ a {
         padding-bottom: 115px !important
     }
 }
+
+.card-product__imgOverlay li button a {
+    color: black;
+}
+
+.card-product__imgOverlay li button a:hover {
+    color: black;
+}
+
+.nav-item button a {
+    color: black;
+}
+
+.nav-item button a:hover {
+    color: black;
+}
