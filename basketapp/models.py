@@ -10,6 +10,18 @@ class Basket(models.Model):
     quantity = models.PositiveIntegerField(verbose_name='Количество', default=1)
     date = models.DateTimeField(auto_now=True)
 
+    @property
+    def product_cost(self):
+        return self.product.price * self.quantity
+
+    @property
+    def total_quantity(self):
+        return sum(map(lambda x: x.quantity, self.user.basket.all()))
+
+    @property
+    def total_price(self):
+        return sum(map(lambda x: x.product_cost, self.user.basket.all()))
+
     def __str__(self):
         return f'{self.user.username} - {self.product.name} - {self.product.category.name}'
 
