@@ -26,14 +26,14 @@
         <div class="container">
             <div class="tracking_box_inner row">
                 <p class="col-md-4">
-                    <img src="/media/ {{ user.avatar }}" alt="">
+                    <img class="img-big" src="/media/{{ user.avatar }}" alt="">
                 </p>
-                <form class="row tracking_form" action="#" method="post" novalidate="novalidate">
+                <form class="row tracking_form" action="" method="post" novalidate="novalidate" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.as_div }}
 
                     <div class="col-md-12 form-group">
-                        <button type="submit" value="submit" class="button button-register w-100" formmethod="post">Сохранить</button>
+                        <button type="submit" class="button button-register w-100">Сохранить</button>
                     </div>
                 </form>
 

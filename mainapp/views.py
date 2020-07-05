@@ -1,4 +1,7 @@
+from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
+
 from .models import Product, Category
 import json
 
@@ -23,8 +26,9 @@ def main(request):
 
 
 def category(request):
-    categories = {p.category: Product.objects.all().filter(category_id__exact=p.category.id).count() for p in Product.objects.all()}
-    product = Product.objects.all()
+    categories = {p.category: Product.objects.filter(category_id__exact=p.category.id).exclude(is_active=False).count()
+                  for p in Product.objects.exclude(is_active=False)}
+    product = Product.objects.exclude(is_active=False)
     context['links_menu'] = links_menu
     context['title'] = 'Категории'
     context['products'] = product
@@ -55,15 +59,16 @@ def productpage(request, pk):
 
 
 def category_id(request, pk):
-    categories = {p.category: Product.objects.all().filter(category_id__exact=p.category.id).count() for p in
-                  Product.objects.all()}
+    categories = {p.category: Product.objects.all() for p in Product.objects.all()}
     if pk == 0:
-        product = Product.objects.all()
+        product = Product.objects.exclude(is_active=False)
     else:
         this_category = get_object_or_404(Category, pk=pk)
-        product = this_category.product_set.all()
+        product = this_category.product_set.exclude(is_active=False)
     context['links_menu'] = links_menu
     context['title'] = 'Категории'
     context['products'] = product
     context['categories'] = categories
-    return render(request, 'mainapp/category.html', context)
+
+    result = render_to_string('mainapp/includes/inc__product_category.html', context)
+    return JsonResponse({'result': result})

@@ -1,0 +1,55 @@
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th></th>
+            <th scope="col">Name</th>
+            <th scope="col">Descriptions</th>
+            <th scope="col">Price</th>
+            <th scope="col">Category</th>
+            <th scope="col">Quantity</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in object_list %}
+            {% if product.is_active %}
+            <tr>
+            {% else %}
+            <tr style="opacity: 0.5">
+            {% endif %}
+            <td>
+                <img class="img-small" src="/media/{{ product.image }}" alt="">
+            </td>
+                <td>
+                    <a href="{% url 'adminapp:product_edit' product.pk %}">{{ product.name }}</a>
+                </td>
+                <td>
+                    <h5>{{ product.description }}</h5>
+                </td>
+                <td>
+                    <h5>{{ product.price }}</h5>
+                </td>
+                <td>
+                    <h5>{{ product.category.name }}</h5>
+                </td>
+                <td>
+                    <h5>{{ product.quantity }}</h5>
+                </td>
+                <td>
+                    {% if product.is_active %}
+                    <form action={% url 'adminapp:product_delete' product.pk %} method='post'>
+                        {% csrf_token %}
+                        <button class="btn btn-danger">Удалить</button>
+                    </form>
+                    {% else %}
+                    <form action={% url 'adminapp:product_delete' product.pk %} method='post'>
+                        {% csrf_token %}
+                        <button class="btn btn-danger">Восстановить</button>
+                    </form>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

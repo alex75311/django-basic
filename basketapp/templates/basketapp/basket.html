@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'js/basket_script.js' %}"></script>
+{% endblock %}
 {% block body %}
     <!-- ================ start banner area ================= -->
     <section class="blog-banner-area" id="category">

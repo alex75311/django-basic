@@ -1,0 +1,66 @@
+{
+  "links_menu": [
+    {
+      "href": [
+        {
+          "href": "adminapp:users",
+          "name": "Users"
+        },
+        {
+          "href": "adminapp:user_create",
+          "name": "Create"
+        }
+      ],
+      "name": "Users",
+      "active": [
+        "users",
+        "user_delete",
+        "user_edit",
+        "user_create"
+      ],
+      "is_drop_down": "True"
+    },
+
+    {
+      "href": [
+        {
+          "href": "adminapp:category",
+          "name": "Category"
+        },
+        {
+          "href": "adminapp:category_create",
+          "name": "Create"
+        }
+      ],
+      "name": "Category",
+      "active": [
+        "category",
+        "category_delete",
+        "category_edit",
+        "category_create"
+      ],
+      "is_drop_down": "True"
+    },
+
+    {
+      "href": [
+        {
+          "href": "adminapp:product",
+          "name": "Product"
+        },
+        {
+          "href": "adminapp:product_create",
+          "name": "Create"
+        }
+      ],
+      "name": "Product",
+      "active": [
+        "product",
+        "product_delete",
+        "product_edit",
+        "product_create"
+      ],
+      "is_drop_down": "True"
+    }
+  ]
+}

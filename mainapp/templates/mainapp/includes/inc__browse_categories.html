@@ -33,15 +33,3 @@
         </li>
     </ul>
 </div>
-<script>
-    let radio = document.getElementsByName('brand')
-    radio.forEach(function (item) {
-            item.addEventListener("change", function (event) {
-                document.location.href = '/category/' + item.id
-            })
-        if(window.location.pathname.split('/')[2] == item.id){
-            item.checked = true
-            }
-        }
-    )
-</script>

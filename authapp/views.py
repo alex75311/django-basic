@@ -22,7 +22,8 @@ def login(request):
             user = auth.authenticate(username=username, password=password)
             if user and user.is_active:
                 auth.login(request, user)
-                return HttpResponseRedirect(reverse('main:index'))
+                redirect_url = request.GET.get('next')
+                return HttpResponseRedirect(redirect_url) if redirect_url else HttpResponseRedirect(reverse('main:index'))
     else:
         form = ShopUserLoginForm()
 

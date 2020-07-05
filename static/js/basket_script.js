@@ -17,7 +17,6 @@ window.onload = function () {
             url: "/basket/remove/" + remove.dataset['el'] + "/",
             success: function(data){
                 $('.cart_inner').html(data.result)
-                console.log(data.result)
             },
         });
     })

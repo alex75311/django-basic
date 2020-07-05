@@ -1,12 +1,12 @@
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 import json
 
 from django.template.loader import render_to_string
-from django.urls import reverse
 
 from basketapp.models import Basket
+from djangobasic.settings import LOGIN_URL
 from mainapp.models import Product
 
 with open('mainapp/json/data.json', 'r', encoding='utf-8') as f:
@@ -28,12 +28,14 @@ def index(request):
 
 @login_required
 def add(request, pk):
+    if LOGIN_URL in request.META.get('HTTP_REFERER'):
+        return redirect('product:product-page', pk=pk)
     product = get_object_or_404(Product, pk=pk)
     basket = Basket.objects.filter(user=request.user, product=product).first()
 
     if not basket:
         basket = Basket(user=request.user, product=product)
-    elif product.quantity < basket.quantity:
+    elif product.quantity > basket.quantity:
         basket.quantity += 1
     basket.save()
 

@@ -4793,3 +4793,11 @@ a {
 .nav-item button a:hover {
     color: black;
 }
+
+.img-big {
+    width: 300px;
+}
+
+.img-small {
+    width: 100px;
+}

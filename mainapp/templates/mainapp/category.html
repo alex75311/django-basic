@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% block js %}
+    {{ block.super }}
+    <script src="{% static 'js/mainapp_script.js' %}"></script>
+{% endblock %}
 {% block body %}
 
 <!-- ================ start banner area ================= -->
