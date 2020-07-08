@@ -24,6 +24,15 @@
             <div class="cart_inner">
                 {% include 'adminapp/includes/inc__products_area.html' %}
             </div>
+            <div class="paginator">
+                {% if object_list.has_previous %}
+                    <a href="{% url 'adminapp:product_page' object_list.previous_page_number %}"> < </a>
+                {% endif %}
+                    <span>Страница {{ object_list.number }} из {{ object_list.paginator.num_pages }} </span>
+                {% if object_list.has_next %}
+                    <a href="{% url 'adminapp:product_page' object_list.next_page_number %}"> > </a>
+                {% endif %}
+            </div>
         </div>
     </section>
 

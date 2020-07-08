@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import user_passes_test
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
@@ -75,13 +76,21 @@ def user_delete(request, pk):
 
 
 @user_passes_test(lambda x: x.is_superuser)
-def product(request):
+def product(request, page=1):
     product_list = Product.objects.all().order_by('-is_active', 'name')
     for el in product_list:
         el.description = el.description[:100]
+
+    paginator = Paginator(product_list, 2)
+    try:
+        page_paginator = paginator.page(page)
+    except PageNotAnInteger:
+        page_paginator = paginator.page(1)
+    except EmptyPage:
+        page_paginator = paginator.page(page_paginator.num_pages)
     context = {
         'title': 'продукты',
-        'object_list': product_list,
+        'object_list': page_paginator,
         'links_menu': links_menu,
     }
     return render(request, 'adminapp/product.html', context)
