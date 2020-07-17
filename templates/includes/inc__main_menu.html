@@ -2,7 +2,6 @@
 
 <div class="collapse navbar-collapse offset" id="navbarSupportedContent">
     <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
-
         {% for link in links_menu %}
 
             {% if not link.is_drop_down %}
@@ -88,7 +87,8 @@
     <!--            <button><i class="ti-search"></i></button>-->
     <!--        </li>-->
     <li class="nav-item">
-        <button><a href="{% url 'basket:index' %}" class="ti-shopping-cart"></a><span class="nav-shop__circle" id="nav-shop"></span>
+        <button><a href="{% url 'basket:index' %}" class="ti-shopping-cart"></a>
+            <span class="nav-shop__circle" id="nav-shop">{{ basket|length }}</span>
         </button>
     </li>
     <!--        <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li>-->

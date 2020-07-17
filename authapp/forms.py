@@ -1,3 +1,6 @@
+import hashlib
+import random
+
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm, SetPasswordForm, PasswordChangeForm
 
@@ -61,6 +64,16 @@ class ShopUserRegisterForm(UserCreationForm):
             raise forms.ValidationError("Только для совершеннолетних")
 
         return data
+
+    def save(self, commit=True):
+        user = super().save()
+
+        user.is_active = False
+        salt = hashlib.sha1(str(random.random()).encode('utf8')).hexdigest()[:6]
+        user.activation_key = hashlib.sha1((user.email + salt).encode('utf8')).hexdigest()
+        user.save()
+
+        return user
 
 
 class ShopUserEditForm(UserChangeForm):
