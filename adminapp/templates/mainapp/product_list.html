@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body %}
+    <!-- ================ start banner area ================= -->
+    <section class="blog-banner-area" id="category">
+        <div class="container h-100">
+            <div class="blog-banner">
+                <div class="text-center">
+                    <h1>Products</h1>
+                    <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Products</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ================ end banner area ================= -->
+
+    <section class="cart_area">
+        <div class="container">
+            <div class="cart_inner">
+                {% include 'adminapp/includes/inc__products_area.html' %}
+            </div>
+            <div class="paginator">
+                {% if page_obj.has_previous %}
+                    <a href="{% url 'adminapp:product_page' page_obj.previous_page_number %}"> < </a>
+                {% endif %}
+                    <span>Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }} </span>
+                {% if page_obj.has_next %}
+                    <a href="{% url 'adminapp:product_page' page_obj.next_page_number %}"> > </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}
