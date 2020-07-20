@@ -31,6 +31,7 @@
                 <form class="row tracking_form" action="" method="post" novalidate="novalidate" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form.as_div }}
+                    {{ profile_form.as_div }}
 
                     <div class="col-md-12 form-group">
                         <button type="submit" class="button button-register w-100">Сохранить</button>

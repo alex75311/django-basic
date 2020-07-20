@@ -42,3 +42,19 @@ class ShopUser(AbstractUser):
                   f'{settings.DOMAIN_NAME}{verify_link}'
 
         return send_mail(title, message, settings.EMAIL_HOST_USER, [self.email], fail_silently=False)
+
+
+class UserProfile(models.Model):
+    MALE = 'M'
+    FEMALE = 'W'
+
+    GENDER_CHOICES = (
+        (MALE, 'мужской'),
+        (FEMALE, 'женский'),
+    )
+
+    user = models.OneToOneField(ShopUser, on_delete=models.CASCADE, primary_key=True)
+    tagline = models.CharField(verbose_name='Теги', max_length=128, blank=True)
+    aboutMe = models.TextField(verbose_name='О себе', max_length=512, blank=True)
+    gender = models.CharField(verbose_name='Пол', max_length=1, choices=GENDER_CHOICES, blank=True)
+    locale = models.CharField(verbose_name='Локализация', max_length=5, blank=True)

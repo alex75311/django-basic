@@ -1,12 +1,14 @@
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 import json
 from django.urls import reverse
 
-from authapp.forms import ShopUserLoginForm, ShopUserRegisterForm, ShopUserEditForm, ShopUserChangePassword
-from authapp.models import ShopUser
+from authapp.forms import ShopUserLoginForm, ShopUserRegisterForm, ShopUserEditForm, ShopUserChangePassword, UserProfileEditForm
+from authapp.models import ShopUser, UserProfile
 
 with open('mainapp/json/data.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
@@ -24,11 +26,11 @@ def login(request):
 
             user = auth.authenticate(username=username, password=password)
             if user and user.is_active:
-                auth.login(request, user)
+                auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 redirect_url = request.GET.get('next')
                 return HttpResponseRedirect(redirect_url) if redirect_url else HttpResponseRedirect(reverse('main:index'))
     else:
-        if 'auth/register/' in request.META.get('HTTP_REFERER'):
+        if reverse('authapp:register') in request.META.get('HTTP_REFERER'):
             activate_message = 'На Ваш e-mail выслано письмо для подтверждения регистрации'
 
         form = ShopUserLoginForm()
@@ -71,16 +73,19 @@ def register(request):
 def edit_profile(request):
     if request.method == 'POST':
         form = ShopUserEditForm(request.POST, request.FILES, instance=request.user)
-        if form.is_valid():
+        profile_form = UserProfileEditForm(request.POST, request.FILES, instance=request.user.userprofile)
+        if form.is_valid() and profile_form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('auth:edit-profile'))
     else:
         form = ShopUserEditForm(instance=request.user)
+        profile_form = UserProfileEditForm(instance=request.user.userprofile)
 
     context = {
         'title': 'Редактирование данных',
         'links_menu': links_menu,
         'form': form,
+        'profile_form': profile_form,
     }
     return render(request, 'authapp/edit.html', context)
 
@@ -97,10 +102,18 @@ def verify(request, email, activation_key):
         user.is_active = True
         user.activation_key = ''
         user.save()
-        auth.login(request, user)
+        auth.login(request, user, backend='django.contrib.auth.backends.ModelBackend')
     else:
         verify_message = 'Учетная запись не активирована'
     context = {
         'verify_message': verify_message,
     }
     return render(request, 'authapp/verify.html', context)
+
+
+@receiver(post_save, sender=ShopUser)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        UserProfile.objects.create(user=instance)
+    else:
+        instance.userprofile.save()

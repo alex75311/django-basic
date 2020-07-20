@@ -4,7 +4,7 @@ import random
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm, SetPasswordForm, PasswordChangeForm
 
-from authapp.models import ShopUser
+from authapp.models import ShopUser, UserProfile
 
 
 class ShopUserLoginForm(AuthenticationForm):
@@ -108,6 +108,32 @@ class ShopUserChangePassword(PasswordChangeForm):
     class Meta:
         model = ShopUser
         fields = ('old_password', )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['placeholder'] = field.label
+            field.widget.attrs['onfocus'] = "this.placeholder = ''"
+            field.widget.attrs['onblur'] = f"this.placeholder = '{field.label}'"
+
+        self.html_class_attr = 'class = "col-md-12 form-group"'
+
+    def as_div(self):
+        "Return this form rendered as HTML <div>s."
+        return self._html_output(
+            normal_row=f'<div {self.html_class_attr}> %(field)s</div>',
+            error_row='%s',
+            row_ender='</div>',
+            help_text_html=' <span class="helptext">%s</span>',
+            errors_on_separate_row=True,
+        )
+
+
+class UserProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ('tagline', 'aboutMe', 'gender')
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

@@ -36,7 +36,7 @@
                 </div>
                 <div class="col-lg-6">
                     <div class="login_form_inner">
-                        <h3>Log in to enter</h3>
+                        <h3>Войти</h3>
                         <h4 style="color: red">{{ activate_message }}</h4>
                         <form class="row login_form" action="" id="contactForm" method="post">
                             {% csrf_token %}
@@ -47,6 +47,11 @@
                                 <button type="submit" value="submit" class="button button-login w-100">Log In</button>
                             </div>
                         </form>
+                        <div style="font-size: 35px">
+                            <h4>Войти с помощью</h4>
+                            <a class="fa fa-google-plus-official" aria-hidden="true" style="color: red" href="{% url 'social:begin' 'google-oauth2' %}?next=/"></a>
+                            <a class="fa fa-vk" aria-hidden="true" style="color: blue" href="{% url 'social:begin' 'vk-oauth2' %}?next=/"></a>
+                        </div>
                     </div>
                 </div>
             </div>
