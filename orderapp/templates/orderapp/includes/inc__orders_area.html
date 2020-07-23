@@ -1,0 +1,55 @@
+{% load my_tags %}
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Username</th>
+            <th scope="col">Create</th>
+            <th scope="col">Update</th>
+            <th scope="col">Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+            <tr>
+                <td>
+                    {% if object.status == 'F' %}
+                        <a href="{% url 'orderapp:order_update' object.pk %}">{{ object.id }}</a>
+                    {% else %}
+                        {{ object.id }}
+                    {% endif %}
+                </td>
+                <td>
+                    <h5>{{ object.user.username }}</h5>
+                </td>
+                <td>
+                    <h5>{{ object.created }}</h5>
+                </td>
+                <td>
+                    <h5>{{ object.updated }}</h5>
+                </td>
+                <td>
+                    <h5>{{ object.get_status_display }}</h5>
+                </td>
+                <td>
+                    {% if object.status == 'F' %}
+                        <form action="{% url 'orderapp:order_confirm' object.pk %}" method='post'>
+                            {% csrf_token %}
+                            <button class="btn btn-success">Подтвердить</button>
+                        </form>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if object.status == 'F' %}
+                        <form action="{% url 'orderapp:order_delete' object.pk %}" method='post'>
+                            {% csrf_token %}
+                            <button class="btn btn-danger">Удалить</button>
+                        </form>
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

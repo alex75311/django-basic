@@ -1,6 +1,13 @@
 {
   "links_menu": [
     {
+      "href": "adminapp:orders",
+      "name": "Orders",
+      "active": [
+        "orders"
+      ]
+    },
+    {
       "href": [
         {
           "href": "adminapp:users",

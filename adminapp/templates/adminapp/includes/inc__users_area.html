@@ -46,12 +46,12 @@
                 </td>
                 <td>
                     {% if object.is_active %}
-                    <form action={% url 'adminapp:user_delete' object.pk %} method='post'>
+                    <form action="{% url 'adminapp:user_delete' object.pk %}" method='post'>
                         {% csrf_token %}
                         <button class="btn btn-danger">Удалить</button>
                     </form>
                     {% else %}
-                    <form action={% url 'adminapp:user_delete' object.pk %} method='post'>
+                    <form action="{% url 'adminapp:user_delete' object.pk %}" method='post'>
                         {% csrf_token %}
                         <button class="btn btn-danger">Восстановить</button>
                     </form>

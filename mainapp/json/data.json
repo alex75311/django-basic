@@ -27,6 +27,13 @@
       "is_drop_down": "True"
     },
     {
+      "href": "orderapp:index",
+      "name": "Orders",
+      "active": [
+        "orderapp:index"
+      ]
+    },
+    {
       "href": [
         {
           "href": "auth:login",

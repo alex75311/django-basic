@@ -1,0 +1,60 @@
+{% load my_tags %}
+
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Username</th>
+            <th scope="col">Create</th>
+            <th scope="col">Update</th>
+            <th scope="col">Status</th>
+            <th scope="col">Includes</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for object in object_list %}
+            <tr>
+                <td>
+                        <a href="{% url 'adminapp:order_update' object.pk %}">{{ object.id }}</a>
+                </td>
+                <td>
+                    <h5>{{ object.user.username }}</h5>
+                </td>
+                <td>
+                    <h5>{{ object.created }}</h5>
+                </td>
+                <td>
+                    <h5>{{ object.updated }}</h5>
+                </td>
+                <td>
+                    <h5>{{ object.get_status_display }}</h5>
+                </td>
+                <td>
+                    {% for product in object.get_order_product %}
+                        <h5><a href="{% url 'adminapp:update_order_item' product.pk %}">{{ product }}</a></h5>
+                    {% endfor %}
+                </td>
+{#                <td>#}
+{#                    {% if object.status == 'F' %}#}
+{#                        <form action="{% url 'orderapp:order_confirm' object.pk %}" method='post'>#}
+{#                            {% csrf_token %}#}
+{#                            <button class="btn btn-success">Подтвердить</button>#}
+{#                        </form>#}
+{#                    {% endif %}#}
+{#                </td>#}
+{#                <td>#}
+{#                        <form action="{% url 'orderapp:order_delete' object.pk %}" method='post'>#}
+{#                            {% csrf_token %}#}
+{#                            {% if object.status == 'F' %}#}
+{#                                <button class="btn btn-danger">Удалить</button>#}
+{#                            {% elif object.status == 'C' %}#}
+{#                                <button class="btn btn-primary">Восстановить</button>#}
+{#                            {% endif %}#}
+{#                        </form>#}
+{#                </td>#}
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

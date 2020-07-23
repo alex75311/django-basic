@@ -7,10 +7,12 @@ from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 
 from adminapp.forms import AdminShopCreateUser, AdminEditUserProfile, AdminCategoryCreate, AdminProductCreate, \
-    AdminCategoryEdit, AdminProductEdit
+    AdminCategoryEdit, AdminProductEdit, AdminOrderEdit, AdminOrderItemEdit
 from authapp.models import ShopUser
 from mainapp.models import Product, Category
 import json
+
+from orderapp.models import Order, OrderItem
 
 with open('adminapp/json/data.json', 'r', encoding='utf-8') as f:
     data = json.load(f)
@@ -261,3 +263,25 @@ def category_create(request):
             'links_menu': links_menu,
         }
     return render(request, 'adminapp/create.html', context)
+
+
+class OrdersReadView(SuperUserOnlyMixin, ContextFormMixin, ListView):
+    model = Order
+    page_title = 'Заказы'
+    template_name = 'orderapp/admin_order_list.html'
+
+
+class OrderUpdateView(SuperUserOnlyMixin, ContextFormMixin, UpdateView):
+    model = Order
+    form_class = AdminOrderEdit
+    page_title = 'Заказ'
+    template_name = 'orderapp/admin_order_update.html'
+    success_url = reverse_lazy('adminapp:orders')
+
+
+class OrderItemUpdateView(SuperUserOnlyMixin, ContextFormMixin, UpdateView):
+    model = OrderItem
+    form_class = AdminOrderItemEdit
+    page_title = 'Продукт заказа'
+    template_name = 'orderapp/admin_order_update.html'
+    success_url = reverse_lazy('adminapp:orders')

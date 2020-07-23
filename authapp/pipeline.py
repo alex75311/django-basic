@@ -6,7 +6,6 @@ from djangobasic.settings import MEDIA_ROOT
 
 
 def save_user_profile(backend, user, response, *args, **kwargs):
-    print(response)
     if backend.name == 'google-oauth2':
         if 'picture' in response.keys():
             picture = requests.get(response['picture']).content

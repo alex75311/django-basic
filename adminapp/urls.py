@@ -25,4 +25,8 @@ urlpatterns = [
     path('category/delete/<int:pk>/', adminapp.category_delete, name='category_delete'),
     path('category/edit/<int:pk>', adminapp.category_edit, name='category_edit'),
     path('category/create/', adminapp.category_create, name='category_create'),
+
+    path('order/read/', adminapp.OrdersReadView.as_view(), name='orders'),
+    path('order/update/<int:pk>', adminapp.OrderUpdateView.as_view(), name='order_update'),
+    path('order/update/item/<int:pk>', adminapp.OrderItemUpdateView.as_view(), name='update_order_item'),
 ]

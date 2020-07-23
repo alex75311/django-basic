@@ -16,7 +16,7 @@
                 <td>
                     <div class="media">
                         <div class="d-flex">
-                            <img src='/media/{{ el.product.image }}' alt="">
+                            <img src='/media/{{ el.product.image }}' alt="" class="img-small">
                         </div>
                         <div class="media-body">
                             <a href="{% url 'product:product-page' el.product.pk %}">{{ el.product.name }}</a>
@@ -61,14 +61,17 @@
             <td class="">
 
             </td>
-            <td>
 
+            <div class="checkout_btn_inner d-flex align-items-center">
+            <td>
+                <a class="btn btn-primary" href="{% url 'main:category' %}">Продолжить покупки</a>
             </td>
             <td>
-                <div class="checkout_btn_inner d-flex align-items-center">
-                    <a class="gray_btn" href="{% url 'main:category' %}">Continue Shopping</a>
-                </div>
+                <a class="btn btn-success" href="{% url 'orderapp:order_create' %}">Оформить заказ</a>
             </td>
+            </div>
+
+
         </tr>
         </tbody>
     </table>
