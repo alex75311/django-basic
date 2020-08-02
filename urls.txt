@@ -1,0 +1,9 @@
+http://185.46.17.66/
+http://185.46.17.66/category/
+http://185.46.17.66/contact/
+http://185.46.17.66/product-page/7/
+http://185.46.17.66/product-page/8/
+http://185.46.17.66/basket/
+http://185.46.17.66/orders/
+http://185.46.17.66/auth/edit-profile/
+http://185.46.17.66/orders/order-update/9/

@@ -20,11 +20,15 @@ class Basket(models.Model):
 
     @property
     def total_price(self):
-        return sum(map(lambda x: x.product_cost, self.user.basket.all()))
+        return sum(map(lambda x: x.product_cost, self.user.basket.all().select_related('product')))
+
+    @staticmethod
+    def get_item(pk):
+        return Basket.objects.get(pk=pk)
 
     def __str__(self):
         return f'{self.user.username} - {self.product.name} - {self.product.category.name}'
 
     class Meta:
-        verbose_name = 'Корзины'
+        verbose_name = 'Корзина'
         verbose_name_plural = 'Корзины'

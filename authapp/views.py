@@ -30,8 +30,11 @@ def login(request):
                 redirect_url = request.GET.get('next')
                 return HttpResponseRedirect(redirect_url) if redirect_url else HttpResponseRedirect(reverse('main:index'))
     else:
-        if reverse('authapp:register') in request.META.get('HTTP_REFERER'):
-            activate_message = 'На Ваш e-mail выслано письмо для подтверждения регистрации'
+        try:
+            if reverse('authapp:register') in request.META['HTTP_REFERER']:
+                activate_message = 'На Ваш e-mail выслано письмо для подтверждения регистрации'
+        except KeyError:
+            pass
 
         form = ShopUserLoginForm()
 

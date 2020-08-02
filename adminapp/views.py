@@ -1,3 +1,5 @@
+import os
+
 from django.contrib.auth.decorators import user_passes_test
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponseRedirect
@@ -9,12 +11,13 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from adminapp.forms import AdminShopCreateUser, AdminEditUserProfile, AdminCategoryCreate, AdminProductCreate, \
     AdminCategoryEdit, AdminProductEdit, AdminOrderEdit, AdminOrderItemEdit
 from authapp.models import ShopUser
+from djangobasic.settings import BASE_DIR
 from mainapp.models import Product, Category
 import json
 
 from orderapp.models import Order, OrderItem
 
-with open('adminapp/json/data.json', 'r', encoding='utf-8') as f:
+with open(os.path.join(BASE_DIR, 'adminapp', 'json', 'data.json'), 'r', encoding='utf-8') as f:
     data = json.load(f)
 
 links_menu = data['links_menu']
@@ -168,7 +171,7 @@ def product_edit(request, pk):
         form = AdminProductEdit(request.POST, request.FILES, instance=el)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('adminapp:product', pk=pk))
+            return HttpResponseRedirect(reverse('adminapp:product'))
     else:
         form = AdminProductEdit(instance=el)
     context = {

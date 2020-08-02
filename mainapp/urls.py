@@ -10,4 +10,5 @@ urlpatterns = [
     path('contact/', mainapp.contact, name='contact'),
     path('single-product/', mainapp.singleproduct, name='single-product'),
     path('<int:pk>/', mainapp.productpage, name='product-page'),
+    path('ajax/product/<int:pk>/', mainapp.product_ajax),
 ]

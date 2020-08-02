@@ -1,4 +1,6 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models.signals import pre_save, pre_delete
+from django.dispatch import receiver
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
 import json
@@ -17,11 +19,11 @@ links_menu = data['links_menu']
 
 @login_required
 def index(request):
-    products = Basket.objects.filter(user=request.user)
+    # products = Basket.objects.filter(user=request.user).select_related()
     context = {
         'links_menu': links_menu,
         'title': 'Корзина',
-        'products': products,
+        # 'products': products,
     }
     return render(request, 'basketapp/basket.html', context)
 
@@ -35,7 +37,7 @@ def add(request, pk):
 
     if not basket:
         basket = Basket(user=request.user, product=product)
-    elif product.quantity > basket.quantity:
+    elif product.quantity > 0:
         basket.quantity += 1
     basket.save()
 
@@ -58,7 +60,7 @@ def edit(request, pk, quantity):
     if request.is_ajax():
         basket = Basket.objects.filter(user=request.user, product=pk).first()
         if quantity > 0:
-            if quantity <= basket.product.quantity:
+            if quantity <= basket.product.quantity + basket.quantity:
                 basket.quantity = quantity
             else:
                 basket.quantity = basket.product.quantity
@@ -67,3 +69,18 @@ def edit(request, pk, quantity):
 
         result = render_to_string('basketapp/includes/inc__basket_area.html', {'products': products})
         return JsonResponse({'result': result})
+
+
+@receiver(pre_save, sender=Basket)
+def product_quantity_update_save(sender, update_fields, instance, **kwargs):
+    if instance.pk:
+        instance.product.quantity -= instance.quantity - sender.get_item(instance.pk).quantity
+    else:
+        instance.product.quantity -= instance.quantity
+    instance.product.save()
+
+
+@receiver(pre_delete, sender=Basket)
+def product_quantity_update_delete(sender, instance, **kwargs):
+    instance.product.quantity += instance.quantity
+    instance.product.save()

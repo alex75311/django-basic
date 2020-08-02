@@ -1,13 +1,19 @@
+from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.db.models.signals import pre_save, pre_delete
+from django.dispatch import receiver
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.urls import reverse_lazy, reverse
+from django.utils.decorators import method_decorator
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 
+from mainapp.models import Product
 from orderapp.forms import OrderForm, OrderItemForm
 from orderapp.models import Order, OrderItem
 
 
+@method_decorator(login_required, name='dispatch')
 class UserOrderList(ListView):
     model = Order
 
@@ -15,6 +21,7 @@ class UserOrderList(ListView):
         return self.request.user.order_set.exclude(is_active=False)
 
 
+@method_decorator(login_required, name='dispatch')
 class UserOrderCreate(CreateView):
     model = Order
     form_class = OrderForm
@@ -38,6 +45,7 @@ class UserOrderCreate(CreateView):
                 for form, basket_item in zip(formset.forms, basket_items):
                     form.initial['product'] = basket_item.product
                     form.initial['quantity'] = basket_item.quantity
+                    form.initial['price'] = basket_item.product.price
             else:
                 formset = OrderFormSet()
 
@@ -63,6 +71,7 @@ class UserOrderCreate(CreateView):
         return super().form_valid(form)
 
 
+@method_decorator(login_required, name='dispatch')
 class UserOrderUpdate(UpdateView):
     model = Order
     form_class = OrderForm
@@ -79,7 +88,12 @@ class UserOrderUpdate(UpdateView):
                 instance=self.object
             )
         else:
-            formset = OrderFormSet(instance=self.object)
+            queryset = self.object.orderitems.select_related()
+            formset = OrderFormSet(instance=self.object, queryset=queryset)
+            for form in formset.forms:
+                if form.instance.pk:
+                    form.initial['price'] = form.instance.product.price
+
         data['orderitems'] = formset
         return data
 
@@ -100,6 +114,7 @@ class UserOrderUpdate(UpdateView):
         return super().form_valid(form)
 
 
+@method_decorator(login_required, name='dispatch')
 class UserOrderDelete(DeleteView):
     model = Order
 
@@ -111,3 +126,18 @@ def order_confirm(request, pk):
     order_c = Order.objects.get(pk=pk)
     order_c.order_confirm()
     return HttpResponseRedirect(reverse('orderapp:index'))
+
+
+@receiver(pre_save, sender=OrderItem)
+def product_quantity_update_save(sender, instance, **kwargs):
+    if instance.pk:
+        instance.product.quantity -= instance.quantity - sender.get_item(instance.pk).quantity
+    else:
+        instance.product.quantity -= instance.quantity
+    instance.product.save()
+
+
+@receiver(pre_delete, sender=OrderItem)
+def product_quantity_update_delete(sender, instance, **kwargs):
+    instance.product.quantity += instance.quantity
+    instance.product.save()

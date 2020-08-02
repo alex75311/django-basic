@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 
@@ -13,9 +13,10 @@ def main(request):
 
 
 def category(request):
-    categories = {p.category: Product.objects.filter(category_id__exact=p.category.id).exclude(is_active=False).count()
-                  for p in Product.objects.exclude(is_active=False)}
-    product = Product.objects.exclude(is_active=False)
+    product = Product.objects.exclude(is_active=False).exclude(quantity=0).select_related()
+    category = Category.objects.exclude(is_active=False)
+    categories = {c: c.product_set.exclude(is_active=False).exclude(quantity=0).count()
+                  for c in category}
     context['products'] = product
     context['categories'] = categories
     return render(request, 'mainapp/category.html', context)
@@ -43,13 +44,19 @@ def productpage(request, pk):
 def category_id(request, pk):
     categories = {p.category: Product.objects.all() for p in Product.objects.all()}
     if pk == 0:
-        product = Product.objects.exclude(is_active=False)
+        product = Product.objects.exclude(is_active=False).exclude(quantity=0)
     else:
         this_category = get_object_or_404(Category, pk=pk)
-        product = this_category.product_set.exclude(is_active=False)
+        product = this_category.product_set.exclude(is_active=False).exclude(quantity=0)
     context['title'] = 'Категории'
     context['products'] = product
     context['categories'] = categories
 
     result = render_to_string('mainapp/includes/inc__product_category.html', context)
     return JsonResponse({'result': result})
+
+
+def product_ajax(request, pk):
+    if request.is_ajax():
+        product_price = Product.objects.get(pk=pk).price
+        return JsonResponse({'product_price': product_price})

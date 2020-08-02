@@ -1,5 +1,6 @@
 from django import forms
 
+from mainapp.models import Product
 from orderapp.models import Order, OrderItem
 
 
@@ -7,7 +8,7 @@ class BaseControlForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
-            field.widget.attrs['class'] = 'form-control'
+            field.widget.attrs['class'] = 'form-control w-100'
             field.widget.attrs['placeholder'] = field.label
             field.widget.attrs['onfocus'] = "this.placeholder = ''"
             field.widget.attrs['onblur'] = f"this.placeholder = '{field.label}'"
@@ -35,6 +36,12 @@ class OrderForm(BaseControlForm):
 
 
 class OrderItemForm(BaseControlForm):
+    price = forms.FloatField(label='Цена', required=False)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['product'].queryset = Product.get_items(self).select_related()
+
     class Meta:
         model = OrderItem
-        fields = '__all__'
+        fields = ('product', 'quantity')

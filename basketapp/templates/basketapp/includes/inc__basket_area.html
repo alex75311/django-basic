@@ -10,7 +10,7 @@
         </thead>
         <tbody>
 
-        {% for el in products %}
+        {% for el in basket %}
             {{ el.user_id.email }}
             <tr>
                 <td>
@@ -28,7 +28,7 @@
                 </td>
                 <td>
                     <div class="product_count">
-                        <input type="number" id="sst" name="quantity" min="1" max="{{ el.product.quantity }}"
+                        <input type="number" id="sst" name="quantity" min="1" max="{{ el.product.quantity|add:el.quantity }}"
                                data-quantity={{ el.quantity }} data-pk={{ el.product.pk }}
                                value="{{ el.quantity }}" class="input-text qty">
                         <i id="remove" class="lnr lnr-trash" data-el={{ el.pk }}></i>
@@ -51,7 +51,7 @@
                 <h5>Total</h5>
             </td>
             <td>
-                <h5 name="total">${{ products.0.total_price }}</h5>
+                <h5 name="total">${{ basket.0.total_price }}</h5>
             </td>
         </tr>
         <tr class="out_button_area">
