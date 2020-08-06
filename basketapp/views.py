@@ -3,7 +3,6 @@ from django.db.models.signals import pre_save, pre_delete
 from django.dispatch import receiver
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404, redirect
-import json
 
 from django.template.loader import render_to_string
 
@@ -11,19 +10,11 @@ from basketapp.models import Basket
 from djangobasic.settings import LOGIN_URL
 from mainapp.models import Product
 
-with open('mainapp/json/data.json', 'r', encoding='utf-8') as f:
-    data = json.load(f)
-
-links_menu = data['links_menu']
-
 
 @login_required
 def index(request):
-    # products = Basket.objects.filter(user=request.user).select_related()
     context = {
-        'links_menu': links_menu,
         'title': 'Корзина',
-        # 'products': products,
     }
     return render(request, 'basketapp/basket.html', context)
 
@@ -65,9 +56,9 @@ def edit(request, pk, quantity):
             else:
                 basket.quantity = basket.product.quantity
             basket.save()
-        products = Basket.objects.filter(user=request.user)
+        basket = Basket.objects.filter(user=request.user)
 
-        result = render_to_string('basketapp/includes/inc__basket_area.html', {'products': products})
+        result = render_to_string('basketapp/includes/inc__basket_area.html', {'basket': basket})
         return JsonResponse({'result': result})
 
 

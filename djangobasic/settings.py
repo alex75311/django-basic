@@ -11,12 +11,14 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 import json
 import os
+import socket
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 from django.conf import settings
 from django.urls import path, include
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+LOW_CACHE = False
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -25,6 +27,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '@062+&pgf=9%zh06#9h_6d13#w8$3g&wuo=(9tpf5&+!90b8$u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# if socket.gethostname() == 'rig1':
+#     DEBUG = True
+# else:
+#     DEBUG = False
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
@@ -61,6 +67,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'social_django.middleware.SocialAuthExceptionMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 ROOT_URLCONF = 'djangobasic.urls'
@@ -92,12 +99,37 @@ WSGI_APPLICATION = 'djangobasic.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+if socket.gethostname() != 'rig1':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'NAME': 'geekshop',
+            'ENGINE': 'django.db.backends.postgresql',
+            'USER': 'django',
+            'PASSWORD': 'geekbrains',
+            'HOST': 'localhost',
+        }
+    }
+
+if os.name == 'posix':
+    CACHE_MIDDLEWARE_ALIAS = 'default'
+    CACHE_MIDDLEWARE_SECONDS = 120
+    CACHE_MIDDLEWARE_KEY_PREFIX = 'geekshop'
+
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+            'LOCATION': '127.0.0.1:11211',
+        }
+    }
+
+    LOW_CACHE = True
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -202,11 +234,11 @@ SOCIAL_AUTH_PIPELINE = (
 )
 
 if DEBUG:
-   DEBUG_TOOLBAR_CONFIG = {
-       'SHOW_TOOLBAR_CALLBACK': lambda x: True,
-   }
+    DEBUG_TOOLBAR_CONFIG = {
+        'SHOW_TOOLBAR_CALLBACK': lambda x: True,
+    }
 
-   DEBUG_TOOLBAR_PANELS = [
+    DEBUG_TOOLBAR_PANELS = [
         'debug_toolbar.panels.versions.VersionsPanel',
         'debug_toolbar.panels.timer.TimerPanel',
         'debug_toolbar.panels.settings.SettingsPanel',

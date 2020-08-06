@@ -1,6 +1,8 @@
 from django.conf import settings
 from django.db import models
 from django.db.models import CASCADE
+from django.utils.functional import cached_property
+
 from mainapp.models import Product
 
 
@@ -10,17 +12,21 @@ class Basket(models.Model):
     quantity = models.PositiveIntegerField(verbose_name='Количество', default=1)
     date = models.DateTimeField(auto_now=True)
 
+    @cached_property
+    def get_items_cached(self):
+        return self.user.basket.select_related().all()
+
     @property
     def product_cost(self):
         return self.product.price * self.quantity
 
     @property
     def total_quantity(self):
-        return sum(map(lambda x: x.quantity, self.user.basket.all()))
+        return sum(map(lambda x: x.quantity, self.get_items_cached))
 
     @property
     def total_price(self):
-        return sum(map(lambda x: x.product_cost, self.user.basket.all().select_related('product')))
+        return sum(map(lambda x: x.product_cost, self.get_items_cached))
 
     @staticmethod
     def get_item(pk):

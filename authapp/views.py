@@ -4,16 +4,10 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-import json
 from django.urls import reverse
 
 from authapp.forms import ShopUserLoginForm, ShopUserRegisterForm, ShopUserEditForm, ShopUserChangePassword, UserProfileEditForm
 from authapp.models import ShopUser, UserProfile
-
-with open('mainapp/json/data.json', 'r', encoding='utf-8') as f:
-    data = json.load(f)
-
-links_menu = data['links_menu']
 
 
 def login(request):
@@ -41,7 +35,6 @@ def login(request):
     context = {
         'title': 'Вход в систему',
         'form': form,
-        'links_menu': links_menu,
         'activate_message': activate_message,
     }
     return render(request, 'authapp/login.html', context)
@@ -66,7 +59,6 @@ def register(request):
 
     context = {
         'title': 'Регистрация',
-        'links_menu': links_menu,
         'form': form,
     }
     return render(request, 'authapp/register.html', context)
@@ -86,7 +78,6 @@ def edit_profile(request):
 
     context = {
         'title': 'Редактирование данных',
-        'links_menu': links_menu,
         'form': form,
         'profile_form': profile_form,
     }

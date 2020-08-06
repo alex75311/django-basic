@@ -40,7 +40,8 @@ class OrderItemForm(BaseControlForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['product'].queryset = Product.get_items(self).select_related()
+        self.fields['product'].queryset = Product.objects.all().select_related().only('quantity', 'name', 'category__name',
+                                                                                      'category__is_active', 'category_id')
 
     class Meta:
         model = OrderItem

@@ -71,6 +71,13 @@ class Order(models.Model):
         self.status = Order.SENT_TO_PROCEED
         self.save()
 
+    def get_summary(self):
+        items = self.orderitems.select_related().all()
+        return {
+            'total_cost': sum(list(map(lambda x: x.quantity * x.product.price, items))),
+            'total_quantity': sum(list(map(lambda x: x.quantity, items))),
+        }
+
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order,

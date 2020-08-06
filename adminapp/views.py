@@ -15,6 +15,7 @@ from djangobasic.settings import BASE_DIR
 from mainapp.models import Product, Category
 import json
 
+from orderapp.forms import OrderForm
 from orderapp.models import Order, OrderItem
 
 with open(os.path.join(BASE_DIR, 'adminapp', 'json', 'data.json'), 'r', encoding='utf-8') as f:
