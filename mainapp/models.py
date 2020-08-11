@@ -26,7 +26,7 @@ class Product(models.Model):
         return f'{self.name} ({self.category.name})'
 
     def get_items(self):
-        return Product.objects.all()
+        return Product.objects.filter(is_active=True)
 
     class Meta:
         verbose_name = 'Товары'

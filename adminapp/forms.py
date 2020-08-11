@@ -90,3 +90,11 @@ class AdminOrderItemEdit(RootAdminForm):
     class Meta:
         model = OrderItem
         fields = '__all__'
+
+
+class ProductCategoryEditForm(RootAdminForm, forms.ModelForm):
+    discount = forms.IntegerField(label='скидка', required=False, min_value=0, max_value=90, initial=0)
+
+    class Meta:
+        model = Category
+        fields = '__all__'

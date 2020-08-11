@@ -6,8 +6,6 @@ from mainapp.models import Product, Category
 from django.conf import settings
 
 
-# from authapp.models import ShopUser
-
 def load_from_json(file_name):
     with open(os.path.join(settings.JSON_PATH, f'{file_name}.json'), 'r', encoding='utf-8') as f:
         return json.load(f)

@@ -31,7 +31,7 @@ SECRET_KEY = '@062+&pgf=9%zh06#9h_6d13#w8$3g&wuo=(9tpf5&+!90b8$u'
 #     DEBUG = True
 # else:
 #     DEBUG = False
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 

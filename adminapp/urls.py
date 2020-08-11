@@ -23,7 +23,8 @@ urlpatterns = [
 
     path('category/', adminapp.category, name='category'),
     path('category/delete/<int:pk>/', adminapp.category_delete, name='category_delete'),
-    path('category/edit/<int:pk>', adminapp.category_edit, name='category_edit'),
+    # path('category/edit/<int:pk>', adminapp.category_edit, name='category_edit'),
+    path('category/edit/<int:pk>', adminapp.ProductCategoryUpdateView.as_view(), name='category_edit'),
     path('category/create/', adminapp.category_create, name='category_create'),
 
     path('order/read/', adminapp.OrdersReadView.as_view(), name='orders'),
